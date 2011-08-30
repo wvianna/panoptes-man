@@ -1,11 +1,5 @@
-
-==============
-SECTION I
-===============
-
-
 Panoptes Database
-==================
+=====================
 
 Description
 --------------
@@ -29,6 +23,5 @@ Example:
 
 ./install.sh localhost panoptes postgres
 
-==============
 SECTION II
 ==============
