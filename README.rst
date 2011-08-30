@@ -4,7 +4,7 @@ Projeto Panoptes Man
 How to Install
 -------------
 
-  doc/INSTALL
+  doc/INSTALL.rst
 
 
 Description
