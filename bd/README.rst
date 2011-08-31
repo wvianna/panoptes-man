@@ -4,6 +4,6 @@ Panoptes Database
 How to Install
 -------------
 
-  doc/INSTALL.rst
+  doc/INSTALL
 
 
