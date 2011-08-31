@@ -2,7 +2,7 @@
 -- pgDesigner 1.2.17
 --
 -- Project    : novoDB
--- Date       : 08/31/2011 18:42:39.907
+-- Date       : 08/31/2011 20:41:02.653
 -- Description: Reestruturação do Banco de Dados (feito do zero)
 ------------------------------
 
@@ -15,7 +15,8 @@ CREATE TABLE "planta" (
 "descricao" text
 ) WITH OIDS;
 ALTER TABLE "planta" ADD CONSTRAINT "planta_pk" PRIMARY KEY("idplanta");
-COMMENT ON COLUMN "planta"."idplanta" IS 'Chave primária da tabela Planta';
+COMMENT ON TABLE "planta" IS 'Informações da Planta';
+COMMENT ON COLUMN "planta"."idplanta" IS 'Chave primária da tabela planta';
 COMMENT ON COLUMN "planta"."tagplanta" IS 'TAG da planta';
 COMMENT ON COLUMN "planta"."descricao" IS 'Descrição da planta';
 
@@ -27,7 +28,8 @@ CREATE TABLE "area" (
 "descricao" text
 ) WITH OIDS;
 ALTER TABLE "area" ADD CONSTRAINT "area_pk" PRIMARY KEY("idarea");
-COMMENT ON COLUMN "area"."idarea" IS 'Chave primária da tabela Área';
+COMMENT ON TABLE "area" IS 'Informações da Área de uma Planta';
+COMMENT ON COLUMN "area"."idarea" IS 'Chave primária da tabela área';
 COMMENT ON COLUMN "area"."idplanta" IS 'Chave estrangeira';
 COMMENT ON COLUMN "area"."tagarea" IS 'TAG da área';
 COMMENT ON COLUMN "area"."descricao" IS 'Descrição da área';
@@ -42,7 +44,8 @@ CREATE TABLE "equipamento" (
 "tipo" varchar
 ) WITH OIDS;
 ALTER TABLE "equipamento" ADD CONSTRAINT "equipamento_pk" PRIMARY KEY("idequipamento");
-COMMENT ON COLUMN "equipamento"."idequipamento" IS 'Chave primária da tabela Equipamento';
+COMMENT ON TABLE "equipamento" IS 'Informações sobre os Equipamentos';
+COMMENT ON COLUMN "equipamento"."idequipamento" IS 'Chave primária da tabela equipamento';
 COMMENT ON COLUMN "equipamento"."idarea" IS 'Chave estrangeira';
 COMMENT ON COLUMN "equipamento"."tagequipamento" IS 'TAG de Equipamento';
 COMMENT ON COLUMN "equipamento"."descricao" IS 'Descrição do Equipamento';
@@ -57,7 +60,8 @@ CREATE TABLE "componente" (
 "descricao" text
 ) WITH OIDS;
 ALTER TABLE "componente" ADD CONSTRAINT "componente_pk" PRIMARY KEY("idcomponente");
-COMMENT ON COLUMN "componente"."idcomponente" IS 'Chave primária da tabela Componente';
+COMMENT ON TABLE "componente" IS 'Componentes de um Equipamento';
+COMMENT ON COLUMN "componente"."idcomponente" IS 'Chave primária da tabela componente';
 COMMENT ON COLUMN "componente"."idequipamento" IS 'Chave estrangeira';
 COMMENT ON COLUMN "componente"."tagcomponente" IS 'TAG do componente';
 COMMENT ON COLUMN "componente"."descricao" IS 'Descrição do componente';
@@ -71,19 +75,20 @@ CREATE TABLE "ponto" (
 "posicao" varchar,
 "tipomedicao" varchar,
 "descricao" text,
-"al" real DEFAULT 0.0,
-"sd" real DEFAULT 0.0
+"valoralerta" real DEFAULT 0.0,
+"valorshutdown" real DEFAULT 0.0
 ) WITH OIDS;
 ALTER TABLE "ponto" ADD CONSTRAINT "ponto_pk" PRIMARY KEY("idponto");
-COMMENT ON COLUMN "ponto"."idponto" IS 'Chave primária da tabela Ponto';
+COMMENT ON TABLE "ponto" IS 'Pontos de análise de um Equipamento';
+COMMENT ON COLUMN "ponto"."idponto" IS 'Chave primária da tabela ponto';
 COMMENT ON COLUMN "ponto"."idsensor" IS 'Chave estrangeira';
 COMMENT ON COLUMN "ponto"."idcomponente" IS 'Chave estrangeira';
 COMMENT ON COLUMN "ponto"."tagponto" IS 'TAG do ponto';
 COMMENT ON COLUMN "ponto"."posicao" IS 'Posição do sensor do ponto';
 COMMENT ON COLUMN "ponto"."tipomedicao" IS 'Vibração, Aceleração, Deslocamento, Rotação';
 COMMENT ON COLUMN "ponto"."descricao" IS 'Descrição do ponto';
-COMMENT ON COLUMN "ponto"."al" IS 'Valor de Alerta';
-COMMENT ON COLUMN "ponto"."sd" IS 'Valor de Shut Down';
+COMMENT ON COLUMN "ponto"."valoralerta" IS 'Valor de Alerta';
+COMMENT ON COLUMN "ponto"."valorshutdown" IS 'Valor de Shut Down';
 
 DROP TABLE IF EXISTS "sensor" CASCADE;
 CREATE TABLE "sensor" (
@@ -98,7 +103,8 @@ CREATE TABLE "sensor" (
 "descricao" text
 ) WITH OIDS;
 ALTER TABLE "sensor" ADD CONSTRAINT "sensor_pk" PRIMARY KEY("idsensor");
-COMMENT ON COLUMN "sensor"."idsensor" IS 'Chave primária da tabela Sensor';
+COMMENT ON TABLE "sensor" IS 'Informações sobre um Sensor';
+COMMENT ON COLUMN "sensor"."idsensor" IS 'Chave primária da tabela sensor';
 COMMENT ON COLUMN "sensor"."idponto" IS 'Chave estrangeira';
 COMMENT ON COLUMN "sensor"."identificacao" IS 'Nome do sensor';
 COMMENT ON COLUMN "sensor"."range" IS 'Range de Medição';
@@ -111,13 +117,14 @@ COMMENT ON COLUMN "sensor"."descricao" IS 'Descrição do sensor';
 DROP TABLE IF EXISTS "montagem" CASCADE;
 CREATE TABLE "montagem" (
 "idmontagem" serial NOT NULL,
-"obs" text,
+"observacao" text,
 "dhiniciomontagem" timestamp NOT NULL,
 "dhfimmontagem" timestamp
 ) WITH OIDS;
 ALTER TABLE "montagem" ADD CONSTRAINT "montagem_pk" PRIMARY KEY("idmontagem");
-COMMENT ON COLUMN "montagem"."idmontagem" IS 'Chave primária da tabela Montagem';
-COMMENT ON COLUMN "montagem"."obs" IS 'Observações sobre a montagem';
+COMMENT ON TABLE "montagem" IS 'Informações sobre uma Montagem';
+COMMENT ON COLUMN "montagem"."idmontagem" IS 'Chave primária da tabela montagem';
+COMMENT ON COLUMN "montagem"."observacao" IS 'Observações sobre a montagem';
 COMMENT ON COLUMN "montagem"."dhiniciomontagem" IS 'Data hora do início da montagem';
 COMMENT ON COLUMN "montagem"."dhfimmontagem" IS 'Data hora do fim da montagem';
 
@@ -134,6 +141,7 @@ CREATE TABLE "leitura" (
 "picos" real[]
 ) WITH OIDS;
 ALTER TABLE "leitura" ADD CONSTRAINT "leitura_pk" PRIMARY KEY("idleitura");
+COMMENT ON TABLE "leitura" IS 'Armazena dados lidos de um Ponto';
 COMMENT ON COLUMN "leitura"."idleitura" IS 'Chave primária da tabela leitura';
 COMMENT ON COLUMN "leitura"."idpontosmontagens" IS 'Chave estrangeira';
 COMMENT ON COLUMN "leitura"."datahora" IS 'Data e hora da leitura';
@@ -155,7 +163,8 @@ CREATE TABLE "pontosmontagens" (
 "sequencialmontagemponto" integer NOT NULL
 ) WITH OIDS;
 ALTER TABLE "pontosmontagens" ADD CONSTRAINT "pontosmontagens_pk" PRIMARY KEY("idpontosmontagens");
-COMMENT ON COLUMN "pontosmontagens"."idpontosmontagens" IS 'Chave Primaria';
+COMMENT ON TABLE "pontosmontagens" IS 'Relação N * M entre Ponto e Montagem';
+COMMENT ON COLUMN "pontosmontagens"."idpontosmontagens" IS 'Chave primária da tabela pontosmontagens';
 COMMENT ON COLUMN "pontosmontagens"."idponto" IS 'Chave estrangeira';
 COMMENT ON COLUMN "pontosmontagens"."idmontagem" IS 'Chave estrangeira';
 COMMENT ON COLUMN "pontosmontagens"."sequencialmontagemponto" IS 'Sequencial de instalação';
@@ -163,29 +172,29 @@ COMMENT ON COLUMN "pontosmontagens"."sequencialmontagemponto" IS 'Sequencial de 
 -- End Table's declaration
 
 -- Start Relation's declaration
-ALTER TABLE "pontosmontagens" DROP CONSTRAINT "pontosmontagens_fkey1" CASCADE;
-ALTER TABLE "pontosmontagens" ADD CONSTRAINT "pontosmontagens_fkey1" FOREIGN KEY ("idponto") REFERENCES "ponto"("idponto") ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE "pontosmontagens" DROP CONSTRAINT "ponto_to_pontosmontagens_fkey" CASCADE;
+ALTER TABLE "pontosmontagens" ADD CONSTRAINT "ponto_to_pontosmontagens_fkey" FOREIGN KEY ("idponto") REFERENCES "ponto"("idponto") ON UPDATE CASCADE ON DELETE RESTRICT;
 
-ALTER TABLE "pontosmontagens" DROP CONSTRAINT "pontosmontagens_fkey2" CASCADE;
-ALTER TABLE "pontosmontagens" ADD CONSTRAINT "pontosmontagens_fkey2" FOREIGN KEY ("idmontagem") REFERENCES "montagem"("idmontagem") ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE "pontosmontagens" DROP CONSTRAINT "montagem_to_pontosmontagens_fkey" CASCADE;
+ALTER TABLE "pontosmontagens" ADD CONSTRAINT "montagem_to_pontosmontagens_fkey" FOREIGN KEY ("idmontagem") REFERENCES "montagem"("idmontagem") ON UPDATE CASCADE ON DELETE RESTRICT;
 
-ALTER TABLE "leitura" DROP CONSTRAINT "leitura_fkey1" CASCADE;
-ALTER TABLE "leitura" ADD CONSTRAINT "leitura_fkey1" FOREIGN KEY ("idpontosmontagens") REFERENCES "pontosmontagens"("idpontosmontagens") ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE "leitura" DROP CONSTRAINT "pontosmontagens_to_leitura_fkey" CASCADE;
+ALTER TABLE "leitura" ADD CONSTRAINT "pontosmontagens_to_leitura_fkey" FOREIGN KEY ("idpontosmontagens") REFERENCES "pontosmontagens"("idpontosmontagens") ON UPDATE CASCADE ON DELETE RESTRICT;
 
-ALTER TABLE "equipamento" DROP CONSTRAINT "equipamento_fkey1" CASCADE;
-ALTER TABLE "equipamento" ADD CONSTRAINT "equipamento_fkey1" FOREIGN KEY ("idarea") REFERENCES "area"("idarea") ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE "equipamento" DROP CONSTRAINT "area_to_equipamento_fkey" CASCADE;
+ALTER TABLE "equipamento" ADD CONSTRAINT "area_to_equipamento_fkey" FOREIGN KEY ("idarea") REFERENCES "area"("idarea") ON UPDATE CASCADE ON DELETE RESTRICT;
 
-ALTER TABLE "area" DROP CONSTRAINT "area_fkey1" CASCADE;
-ALTER TABLE "area" ADD CONSTRAINT "area_fkey1" FOREIGN KEY ("idplanta") REFERENCES "planta"("idplanta") ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE "area" DROP CONSTRAINT "planta_to_area_fkey" CASCADE;
+ALTER TABLE "area" ADD CONSTRAINT "planta_to_area_fkey" FOREIGN KEY ("idplanta") REFERENCES "planta"("idplanta") ON UPDATE CASCADE ON DELETE RESTRICT;
 
-ALTER TABLE "componente" DROP CONSTRAINT "componente_fkey1" CASCADE;
-ALTER TABLE "componente" ADD CONSTRAINT "componente_fkey1" FOREIGN KEY ("idequipamento") REFERENCES "equipamento"("idequipamento") ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE "componente" DROP CONSTRAINT "equipamento_to_componente_fkey" CASCADE;
+ALTER TABLE "componente" ADD CONSTRAINT "equipamento_to_componente_fkey" FOREIGN KEY ("idequipamento") REFERENCES "equipamento"("idequipamento") ON UPDATE CASCADE ON DELETE RESTRICT;
 
-ALTER TABLE "ponto" DROP CONSTRAINT "ponto_fkey1" CASCADE;
-ALTER TABLE "ponto" ADD CONSTRAINT "ponto_fkey1" FOREIGN KEY ("idcomponente") REFERENCES "componente"("idcomponente") ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE "ponto" DROP CONSTRAINT "componente_to_ponto_fkey" CASCADE;
+ALTER TABLE "ponto" ADD CONSTRAINT "componente_to_ponto_fkey" FOREIGN KEY ("idcomponente") REFERENCES "componente"("idcomponente") ON UPDATE CASCADE ON DELETE RESTRICT;
 
-ALTER TABLE "ponto" DROP CONSTRAINT "ponto_fkey2" CASCADE;
-ALTER TABLE "ponto" ADD CONSTRAINT "ponto_fkey2" FOREIGN KEY ("idsensor") REFERENCES "sensor"("idsensor") ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE "ponto" DROP CONSTRAINT "sensor_to_ponto_fkey" CASCADE;
+ALTER TABLE "ponto" ADD CONSTRAINT "sensor_to_ponto_fkey" FOREIGN KEY ("idsensor") REFERENCES "sensor"("idsensor") ON UPDATE CASCADE ON DELETE RESTRICT;
 
 -- End Relation's declaration
 
