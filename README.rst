@@ -1,10 +1,10 @@
-Projeto Panoptes Man
+Project Panoptes Man
 ====================
 
 How to Install
 -------------
 
-  doc/INSTALL
+  doc/README.rst
 
 
 Description
