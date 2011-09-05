@@ -2,7 +2,7 @@
 -- pgDesigner 1.2.17
 --
 -- Project    : novoDB
--- Date       : 09/05/2011 14:44:13.412
+-- Date       : 09/05/2011 18:48:06.783
 -- Description: Reestruturação do Banco de Dados (feito do zero)
 ------------------------------
 
@@ -10,7 +10,7 @@
 -- Start Table's declaration
 DROP TABLE IF EXISTS "planta" CASCADE;
 CREATE TABLE "planta" (
-"idplanta" serial NOT NULL,
+"idplanta" varchar NOT NULL,
 "tagplanta" varchar NOT NULL,
 "descricao" text
 ) WITH OIDS;
@@ -22,8 +22,8 @@ COMMENT ON COLUMN "planta"."descricao" IS 'Descrição da planta';
 
 DROP TABLE IF EXISTS "area" CASCADE;
 CREATE TABLE "area" (
-"idarea" serial NOT NULL,
-"idplanta" integer NOT NULL,
+"idarea" varchar NOT NULL,
+"idplanta" varchar NOT NULL,
 "tagarea" varchar NOT NULL,
 "descricao" text
 ) WITH OIDS;
@@ -36,8 +36,8 @@ COMMENT ON COLUMN "area"."descricao" IS 'Descrição da área';
 
 DROP TABLE IF EXISTS "equipamento" CASCADE;
 CREATE TABLE "equipamento" (
-"idequipamento" serial NOT NULL,
-"idarea" integer NOT NULL,
+"idequipamento" varchar NOT NULL,
+"idarea" varchar NOT NULL,
 "tagequipamento" varchar NOT NULL,
 "descricao" text,
 "fabricante" varchar,
@@ -54,8 +54,8 @@ COMMENT ON COLUMN "equipamento"."tipo" IS 'Tipo do equipamento: bomba, turbina, 
 
 DROP TABLE IF EXISTS "componente" CASCADE;
 CREATE TABLE "componente" (
-"idcomponente" serial NOT NULL,
-"idequipamento" integer NOT NULL,
+"idcomponente" varchar NOT NULL,
+"idequipamento" varchar NOT NULL,
 "tagcomponente" varchar NOT NULL,
 "descricao" text
 ) WITH OIDS;
@@ -68,9 +68,9 @@ COMMENT ON COLUMN "componente"."descricao" IS 'Descrição do componente';
 
 DROP TABLE IF EXISTS "ponto" CASCADE;
 CREATE TABLE "ponto" (
-"idponto" serial4 NOT NULL,
-"idsensor" integer NOT NULL,
-"idcomponente" integer NOT NULL,
+"idponto" varchar NOT NULL,
+"idsensor" varchar NOT NULL,
+"idcomponente" varchar NOT NULL,
 "tagponto" varchar NOT NULL,
 "posicao" varchar,
 "tipomedicao" varchar,
@@ -92,7 +92,7 @@ COMMENT ON COLUMN "ponto"."valorshutdown" IS 'Valor de Shut Down';
 
 DROP TABLE IF EXISTS "sensor" CASCADE;
 CREATE TABLE "sensor" (
-"idsensor" serial NOT NULL,
+"idsensor" varchar NOT NULL,
 "identificacao" varchar,
 "range" varchar,
 "sensibilidade" varchar,
@@ -114,7 +114,7 @@ COMMENT ON COLUMN "sensor"."descricao" IS 'Descrição do sensor';
 
 DROP TABLE IF EXISTS "montagem" CASCADE;
 CREATE TABLE "montagem" (
-"idmontagem" serial NOT NULL,
+"idmontagem" varchar NOT NULL,
 "observacao" text,
 "dhiniciomontagem" timestamp NOT NULL,
 "dhfimmontagem" timestamp
@@ -128,8 +128,8 @@ COMMENT ON COLUMN "montagem"."dhfimmontagem" IS 'Data hora do fim da montagem';
 
 DROP TABLE IF EXISTS "leitura" CASCADE;
 CREATE TABLE "leitura" (
-"idleitura" serial8 NOT NULL,
-"idpontosmontagens" integer NOT NULL,
+"idleitura" varchar NOT NULL,
+"idpontosmontagens" varchar NOT NULL,
 "datahora" timestamp NOT NULL,
 "rotacao" real,
 "deslocamento" real,
@@ -155,9 +155,9 @@ COMMENT ON COLUMN "leitura"."picos" IS 'Matriz dos picos do espectro.
 
 DROP TABLE IF EXISTS "pontosmontagens" CASCADE;
 CREATE TABLE "pontosmontagens" (
-"idpontosmontagens" serial NOT NULL,
-"idponto" integer NOT NULL,
-"idmontagem" integer NOT NULL,
+"idpontosmontagens" varchar NOT NULL,
+"idponto" varchar NOT NULL,
+"idmontagem" varchar NOT NULL,
 "sequencialmontagemponto" integer NOT NULL
 ) WITH OIDS;
 ALTER TABLE "pontosmontagens" ADD CONSTRAINT "pontosmontagens_pk" PRIMARY KEY("idpontosmontagens");
