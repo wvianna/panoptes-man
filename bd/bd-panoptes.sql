@@ -2,7 +2,7 @@
 -- pgDesigner 1.2.17
 --
 -- Project    : novoDB
--- Date       : 08/31/2011 20:41:02.653
+-- Date       : 09/05/2011 14:44:13.412
 -- Description: Reestruturação do Banco de Dados (feito do zero)
 ------------------------------
 
@@ -93,7 +93,6 @@ COMMENT ON COLUMN "ponto"."valorshutdown" IS 'Valor de Shut Down';
 DROP TABLE IF EXISTS "sensor" CASCADE;
 CREATE TABLE "sensor" (
 "idsensor" serial NOT NULL,
-"idponto" integer NOT NULL,
 "identificacao" varchar,
 "range" varchar,
 "sensibilidade" varchar,
@@ -105,7 +104,6 @@ CREATE TABLE "sensor" (
 ALTER TABLE "sensor" ADD CONSTRAINT "sensor_pk" PRIMARY KEY("idsensor");
 COMMENT ON TABLE "sensor" IS 'Informações sobre um Sensor';
 COMMENT ON COLUMN "sensor"."idsensor" IS 'Chave primária da tabela sensor';
-COMMENT ON COLUMN "sensor"."idponto" IS 'Chave estrangeira';
 COMMENT ON COLUMN "sensor"."identificacao" IS 'Nome do sensor';
 COMMENT ON COLUMN "sensor"."range" IS 'Range de Medição';
 COMMENT ON COLUMN "sensor"."sensibilidade" IS 'Sensibilidade do Sensor';
