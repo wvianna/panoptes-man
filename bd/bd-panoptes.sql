@@ -2,7 +2,7 @@
 -- pgDesigner 1.2.17
 --
 -- Project    : novoDB
--- Date       : 09/05/2011 18:48:06.783
+-- Date       : 09/06/2011 17:12:54.411
 -- Description: Reestruturação do Banco de Dados (feito do zero)
 ------------------------------
 
@@ -136,7 +136,7 @@ CREATE TABLE "leitura" (
 "rmstotal" real,
 "rmspicos" real,
 "rmsruido" real,
-"picos" real[]
+"picos" real
 ) WITH OIDS;
 ALTER TABLE "leitura" ADD CONSTRAINT "leitura_pk" PRIMARY KEY("idleitura");
 COMMENT ON TABLE "leitura" IS 'Armazena dados lidos de um Ponto';
