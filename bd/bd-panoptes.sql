@@ -2,7 +2,7 @@
 -- pgDesigner 1.2.17
 --
 -- Project    : novoDB
--- Date       : 09/14/2011 11:40:47.071
+-- Date       : 09/14/2011 18:15:25.107
 -- Description: Reestruturação do Banco de Dados (feito do zero)
 ------------------------------
 
@@ -167,14 +167,17 @@ DROP TABLE IF EXISTS "pico" CASCADE;
 CREATE TABLE "pico" (
 "idpico" varchar NOT NULL,
 "idleitura" varchar NOT NULL,
-"valorpico" real,
-"datahora" timestamp
+"frequencia" real NOT NULL,
+"amplitude" real NOT NULL,
+"fase" real
 ) WITH OIDS;
 ALTER TABLE "pico" ADD CONSTRAINT "pico_pk" PRIMARY KEY("idpico");
+COMMENT ON TABLE "pico" IS 'Informações dos picos';
 COMMENT ON COLUMN "pico"."idpico" IS 'Chave primária da tabela pico';
 COMMENT ON COLUMN "pico"."idleitura" IS 'Chave estrangeira';
-COMMENT ON COLUMN "pico"."valorpico" IS 'Valor de pico';
-COMMENT ON COLUMN "pico"."datahora" IS 'Data hora do pico';
+COMMENT ON COLUMN "pico"."frequencia" IS 'Frequência do pico';
+COMMENT ON COLUMN "pico"."amplitude" IS 'Amplitude do pico';
+COMMENT ON COLUMN "pico"."fase" IS 'Fase do pico';
 
 -- End Table's declaration
 
