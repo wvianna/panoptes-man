@@ -2,7 +2,7 @@
 -- pgDesigner 1.2.17
 --
 -- Project    : novoDB
--- Date       : 09/06/2011 17:12:54.411
+-- Date       : 09/14/2011 11:40:47.071
 -- Description: Reestruturação do Banco de Dados (feito do zero)
 ------------------------------
 
@@ -135,8 +135,7 @@ CREATE TABLE "leitura" (
 "deslocamento" real,
 "rmstotal" real,
 "rmspicos" real,
-"rmsruido" real,
-"picos" real
+"rmsruido" real
 ) WITH OIDS;
 ALTER TABLE "leitura" ADD CONSTRAINT "leitura_pk" PRIMARY KEY("idleitura");
 COMMENT ON TABLE "leitura" IS 'Armazena dados lidos de um Ponto';
@@ -149,9 +148,6 @@ COMMENT ON COLUMN "leitura"."deslocamento" IS 'Deslocamento do ponto.
 COMMENT ON COLUMN "leitura"."rmstotal" IS 'RMS Total = RMS do espectro';
 COMMENT ON COLUMN "leitura"."rmspicos" IS 'RMS Picos = RMS calculado com os picos acima do limite de corte';
 COMMENT ON COLUMN "leitura"."rmsruido" IS 'RMS Ruido = RMS calculado com os picos abaixo do limite de corte';
-COMMENT ON COLUMN "leitura"."picos" IS 'Matriz dos picos do espectro.
-Coluna = frequência, amplitude e fase.
-Linhas = N';
 
 DROP TABLE IF EXISTS "pontosmontagens" CASCADE;
 CREATE TABLE "pontosmontagens" (
@@ -166,6 +162,19 @@ COMMENT ON COLUMN "pontosmontagens"."idpontosmontagens" IS 'Chave primária da t
 COMMENT ON COLUMN "pontosmontagens"."idponto" IS 'Chave estrangeira';
 COMMENT ON COLUMN "pontosmontagens"."idmontagem" IS 'Chave estrangeira';
 COMMENT ON COLUMN "pontosmontagens"."sequencialmontagemponto" IS 'Sequencial de instalação';
+
+DROP TABLE IF EXISTS "pico" CASCADE;
+CREATE TABLE "pico" (
+"idpico" varchar NOT NULL,
+"idleitura" varchar NOT NULL,
+"valorpico" real,
+"datahora" timestamp
+) WITH OIDS;
+ALTER TABLE "pico" ADD CONSTRAINT "pico_pk" PRIMARY KEY("idpico");
+COMMENT ON COLUMN "pico"."idpico" IS 'Chave primária da tabela pico';
+COMMENT ON COLUMN "pico"."idleitura" IS 'Chave estrangeira';
+COMMENT ON COLUMN "pico"."valorpico" IS 'Valor de pico';
+COMMENT ON COLUMN "pico"."datahora" IS 'Data hora do pico';
 
 -- End Table's declaration
 
@@ -193,6 +202,9 @@ ALTER TABLE "ponto" ADD CONSTRAINT "componente_to_ponto_fkey" FOREIGN KEY ("idco
 
 ALTER TABLE "ponto" DROP CONSTRAINT "sensor_to_ponto_fkey" CASCADE;
 ALTER TABLE "ponto" ADD CONSTRAINT "sensor_to_ponto_fkey" FOREIGN KEY ("idsensor") REFERENCES "sensor"("idsensor") ON UPDATE CASCADE ON DELETE RESTRICT;
+
+ALTER TABLE "pico" DROP CONSTRAINT "leitura_to_pico_fkey" CASCADE;
+ALTER TABLE "pico" ADD CONSTRAINT "leitura_to_pico_fkey" FOREIGN KEY ("idleitura") REFERENCES "leitura"("idleitura") ON UPDATE CASCADE ON DELETE RESTRICT;
 
 -- End Relation's declaration
 
