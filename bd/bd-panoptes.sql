@@ -2,7 +2,7 @@
 -- pgDesigner 1.2.17
 --
 -- Project    : novoDB
--- Date       : 09/14/2011 18:15:25.107
+-- Date       : 09/26/2011 16:13:40.826
 -- Description: Reestruturação do Banco de Dados (feito do zero)
 ------------------------------
 
@@ -157,7 +157,7 @@ CREATE TABLE "pontosmontagens" (
 "sequencialmontagemponto" integer NOT NULL
 ) WITH OIDS;
 ALTER TABLE "pontosmontagens" ADD CONSTRAINT "pontosmontagens_pk" PRIMARY KEY("idpontosmontagens");
-COMMENT ON TABLE "pontosmontagens" IS 'Relação N * M entre Ponto e Montagem';
+COMMENT ON TABLE "pontosmontagens" IS 'Relação N * M entre as tabelas ponto e montagem';
 COMMENT ON COLUMN "pontosmontagens"."idpontosmontagens" IS 'Chave primária da tabela pontosmontagens';
 COMMENT ON COLUMN "pontosmontagens"."idponto" IS 'Chave estrangeira';
 COMMENT ON COLUMN "pontosmontagens"."idmontagem" IS 'Chave estrangeira';
